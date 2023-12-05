@@ -19,4 +19,4 @@ jobs:
           set-executionPolicy Bypass
           msbuild AdventureWorks\AdventureWorks.sqlproj
       - name: DeployDACPAC
-        run: 'c:\Program Files\Microsoft SQL Server\160\DAC\bin\sqlpackage.exe /SourceFile:".\DevIntersections\AdventureWorks\bin\debug\AdventureWorks.dacpac" /action:publish /TargetConnectionString:"Server=localhost;Database=AWTest;Integrated Security=SSPI;Encrypt=false"'
+        run: '"c:\Program Files\Microsoft SQL Server\160\DAC\bin\sqlpackage.exe" /SourceFile:".\DevIntersections\AdventureWorks\bin\debug\AdventureWorks.dacpac" /action:publish /TargetConnectionString:"Server=localhost;Database=AWTest;Integrated Security=SSPI;Encrypt=false"'
