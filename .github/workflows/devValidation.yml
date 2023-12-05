@@ -7,7 +7,6 @@ on:
   workflow_dispatch:
 
 jobs:
-
   buildCode:
     name: Build SQL Projects
     runs-on: windows-latest
