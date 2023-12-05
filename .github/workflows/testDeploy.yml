@@ -15,12 +15,6 @@ jobs:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1
       - name: Build AdventureWorks DACPAC
-        run: |
-          set-executionPolicy Bypass
-          msbuild AdventureWorks\AdventureWorks.sqlproj
+        run: msbuild AdventureWorks\AdventureWorks.sqlproj
       - name: Deploy DACPAC
-        uses: Azure/run-sqlpackage-action@v1.0.0
-        with:
-           action: 'Publish'
-           sourcepath: DevIntersection/AdventureWorks/bin/debug/AdventureWorks.dacapc
-           connection-string: 'Server=localhost;Database=AWTest;Integrated Security=SSPI;Encrypt=false'
+        run: '"c:\Program Files\Microsoft SQL Server\160\DAC\bin\sqlpackage.exe" /SourceFile:"DevIntersection\AdventureWorks\bin\debug\AdventureWorks.dacpac" /action:publish /TargetConnectionString:"Server=localhost;Database=AWTest;Integrated Security=SSPI;Encrypt=false"'
