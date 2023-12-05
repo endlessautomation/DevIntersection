@@ -21,6 +21,6 @@ jobs:
     with:
       name: AdventureWorks
       # A file, directory or wildcard pattern that describes what to upload
-      path: /AdventureWorks/bin/debug/AdventureWorks.dacpac
+      path: DevIntersection\AdventureWorks\bin\Debug\AdventureWorks.dacpac
 
   
