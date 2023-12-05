@@ -9,6 +9,7 @@ on:
 jobs:
   buildCode:
     name: Build SQL Projects
+
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v3
