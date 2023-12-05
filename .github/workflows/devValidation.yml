@@ -1,19 +1,15 @@
 
 name: Validate Development Branch
 
-# Controls when the workflow will run
 on:
   pull_request:
     branches: [ "dev" ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+
+  buildCode:
+    name: Build SQL Projects
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v3
