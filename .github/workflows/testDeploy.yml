@@ -5,15 +5,16 @@ on:
     branches: [ "test" ]
 
   workflow_dispatch:
-jobs:
- buildCode:
-  name: Build SQL Projects
-  runs-on: self-hosted
-  steps:
-  - uses: actions/checkout@v3
 
-  - uses: azure/sql-action@v2.2
-    with:
-      connection-string: "server=Win11Temp;database=AWTest;User ID=deployUser;PWD=SneakyP@ssw0rd;"
-      action: publish
-      path: './AdventureWorks\AdventureWorks.sqlproj'
+jobs:
+
+  build:
+    runs-on: WIN11TEMP
+    steps:
+      - uses: actions/checkout@v3
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
+      - name: Build AdventureWorks DACPAC
+        run: msbuild AdventureWorks\AdventureWorks.sqlproj
+      - name: DeployDACPAC
+        run: 'c:\Program Files\Microsoft SQL Server\160\DAC\bin\sqlpackage.exe /SourceFile:".\DevIntersections\AdventureWorks\bin\debug\AdventureWorks.dacpac" /action:publish /TargetConnectionString:"Server=localhost;Database=AWTest;Integrated Security=SSPI;Encrypt=false"'
