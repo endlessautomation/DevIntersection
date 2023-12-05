@@ -8,7 +8,7 @@ on:
 jobs:
  buildCode:
   name: Build SQL Projects
-  runs-on: windows-latest
+  runs-on: WIN11TEMP
   steps:
   - uses: actions/checkout@v3
 
