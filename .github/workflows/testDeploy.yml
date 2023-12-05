@@ -1,23 +1,19 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Deploy to Test
 
-# Controls when the workflow will run
 on:
   pull_request:
     branches: [ "test" ]
 
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
-    runs-on: WIN11TEMP
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    runs-on: self-hosted
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
+      - name: Build AdventureWorks DACPAC
+        run: msbuild AdventureWorks\AdventureWorks.sqlproj
+      - name: Deploy DACPAC
+        run: sqlpackage.exe /SourceFile:"AdventureWorks\bin\debug\AdventureWorks.dacpac" /action:publish /TargetConnectionString:"Server=localhost;Database=AWTest;Integrated Security=SSPI;Encrypt=false"

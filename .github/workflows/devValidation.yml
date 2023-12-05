@@ -1,24 +1,22 @@
 
 name: Validate Development Branch
 
-# Controls when the workflow will run
 on:
   pull_request:
     branches: [ "dev" ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   buildCode:
     name: Build SQL Projects
-    # The type of runner that the job will run on
-    runs-on: windows-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    runs-on: windows-latest
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+    - uses: actions/checkout@v3
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.1
+
+    - name: Build AdventureWorks DACPAC
+      run: msbuild AdventureWorks\AdventureWorks.sqlproj
+
 
