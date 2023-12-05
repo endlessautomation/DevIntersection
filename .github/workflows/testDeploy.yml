@@ -14,6 +14,6 @@ jobs:
 
   - uses: azure/sql-action@v2.2
     with:
-      connection-string: "server=localhost;database=AWTest;User ID=deployUser;PWD=SneakyP@ssw0rd;"
+      connection-string: "server=Win11Temp;database=AWTest;User ID=deployUser;PWD=SneakyP@ssw0rd;"
       action: publish
       path: './AdventureWorks\AdventureWorks.sqlproj'
