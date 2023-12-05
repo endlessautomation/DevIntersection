@@ -1,0 +1,6 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/AdventureWorks/.vs/AdventureWorks/v17
+/AdventureWorks/obj/Debug
