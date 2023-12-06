@@ -1,0 +1,40 @@
+trigger:
+- main
+
+pool:
+  vmImage: windows-latest
+
+stages:
+- stage: buildProcess
+  jobs:
+  - job: buildDACPAC
+    displayName: Build Database DACPAC
+    steps:
+    - task: VSBuild@1
+      inputs:
+        solution: '**\AdventureWorks.sln'
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Build.SourcesDirectory)\AdventureWorks\bin\debug\AdventureWorks.dacpac'
+        artifact: 'Databases'
+        publishLocation: 'pipeline'
+- stage: deployProcess
+  jobs:
+  - job: deployDACPACToTest
+    displayName: DeployDACPAC to SQL Server
+    pool: WorkshopPool
+    steps:
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'current'
+        artifactName: 'Databases'
+        targetPath: '$(Pipeline.Workspace)'
+    - task: SqlDacpacDeploymentOnMachineGroup@0
+      inputs:
+        TaskType: 'dacpac'
+        DacpacFile: '$(Pipeline.Workspace)\AdventureWorks.dacpac'
+        TargetMethod: 'server'
+        ServerName: 'localhost'
+        DatabaseName: 'AWTest'
+        AuthScheme: 'windowsAuthentication'
+        AdditionalArguments: '/TargetEncryptConnection:false'
