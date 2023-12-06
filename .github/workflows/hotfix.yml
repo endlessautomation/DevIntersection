@@ -20,7 +20,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: AdventureWorks
-          path: AdventureWorks/**/AdventureWorks.dacpac
+          path: AdventureWorks/bin/debug/AdventureWorks.dacpac
   deploytoTest:
     runs-on: self-hosted
     needs: build
