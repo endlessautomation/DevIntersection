@@ -1,7 +1,7 @@
 name: Hotfix Release
 
 on:
-  pull_request:
+  push:
     branches: [ "hotfix" ]
 
   workflow_dispatch:
