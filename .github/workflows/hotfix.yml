@@ -1,7 +1,7 @@
 name: Hotfix Release
 
 on:
-  push:
+  pull_request:
     branches: [ "hotfix" ]
 
   workflow_dispatch:
@@ -15,15 +15,14 @@ jobs:
         uses: microsoft/setup-msbuild@v1.1
       - name: Build AdventureWorks DACPAC
         run: msbuild AdventureWorks\AdventureWorks.sqlproj
-      - name: Deploy DACPAC
-        run: sqlpackage.exe /SourceFile:"AdventureWorks\bin\debug\AdventureWorks.dacpac" /action:publish /TargetConnectionString:"Server=localhost;Database=AWTest;Integrated Security=SSPI;Encrypt=false"
       - uses: actions/upload-artifact@v3
         with:
           name: AdventureWorks
-          path: AdventureWorks/bin/debug/AdventureWorks.dacpac
+          path: AdventureWork/bin/debug/AdventureWorks.dacpac
   deploytoTest:
-    runs-on: self-hosted
+    name: Deploy DACPACs to Test
     needs: build
+    runs-on: self-hosted
     environment: Test
     steps:
       - uses: actions/download-artifact@v3
@@ -32,3 +31,15 @@ jobs:
           path: ./AdventureWorks
       - name: Deploy DACPAC
         run: sqlpackage.exe /SourceFile:".\AdventureWorks\AdventureWorks.dacpac" /action:publish /TargetConnectionString:"Server=localhost;Database=AWTest;Integrated Security=SSPI;Encrypt=false"
+  deploytoProd:
+    name: Deploy DACPACs to Production
+    needs: deploytoTest
+    runs-on: self-hosted
+    environment: Prod
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: AdventureWorks
+          path: ./AdventureWorks
+      - name: Deploy DACPAC
+        run: sqlpackage.exe /SourceFile:".\AdventureWorks\AdventureWorks.dacpac" /action:publish /TargetConnectionString:"Server=localhost;Database=AWProd;Integrated Security=SSPI;Encrypt=false"
