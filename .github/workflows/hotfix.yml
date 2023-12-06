@@ -23,6 +23,7 @@ jobs:
           path: AdventureWorks/**/AdventureWorks.dacpac
   deploytoTest:
     runs-on: self-hosted
+    needs: build
     environment: Test
     steps:
       - uses: actions/download-artifact@v3
